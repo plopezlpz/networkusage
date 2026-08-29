@@ -1,0 +1,29 @@
+name: NetworkMon
+options:
+  bundleIdPrefix: com.pablo
+  deploymentTarget:
+    macOS: "14.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+targets:
+  NetworkMon:
+    type: application
+    platform: macOS
+    sources: [NetworkMon]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.pablo.networkmon
+        INFOPLIST_FILE: NetworkMon/Info.plist
+        CODE_SIGN_STYLE: Automatic
+    scheme:
+      testTargets: [NetworkMonTests]
+  NetworkMonTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [NetworkMonTests]
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: NetworkMon
