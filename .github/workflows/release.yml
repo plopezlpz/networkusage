@@ -1,0 +1,39 @@
+name: Release macOS app
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-14
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Run tests
+        run: make test
+
+      - name: Build unsigned Release app
+        run: make CONFIGURATION=Release XCODEBUILD_ARGS=CODE_SIGNING_ALLOWED=NO build
+
+      - name: Ad-hoc sign and package app
+        run: |
+          APP=.build/Build/Products/Release/NetworkMon.app
+          codesign --force --sign - "$APP"
+          codesign --verify --deep --strict --verbose=2 "$APP"
+          ditto -c -k --sequesterRsrc --keepParent "$APP" NetworkMon-macOS.zip
+
+      - name: Upload release archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$TAG" NetworkMon-macOS.zip --clobber

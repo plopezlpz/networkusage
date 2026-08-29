@@ -10,7 +10,10 @@ targets:
   NetworkMon:
     type: application
     platform: macOS
-    sources: [NetworkMon]
+    sources:
+      - path: NetworkMon
+        excludes: [AppIcon.icns]
+      - path: NetworkMon/AppIcon.icns
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.pablo.networkmon

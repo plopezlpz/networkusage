@@ -9,3 +9,5 @@ make run
 ```
 
 Requires macOS 14+, Xcode, and [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`). Click the menu-bar meter to open the graph or quit.
+
+Published releases include `NetworkMon-macOS.zip`. The app is ad-hoc signed, not notarized, so macOS may require approval in Privacy & Security on first launch.
